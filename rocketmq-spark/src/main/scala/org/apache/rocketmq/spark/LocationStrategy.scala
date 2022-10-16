@@ -35,6 +35,8 @@ sealed abstract class LocationStrategy
 
 case object PreferConsistent extends LocationStrategy
 
+case object PreferBrokers extends LocationStrategy
+
 case class PreferFixed(hostMap: ju.Map[TopicQueueId, String]) extends LocationStrategy
 
 /**

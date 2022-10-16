@@ -19,7 +19,7 @@ package org.apache.spark.streaming
 
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.{ConcurrentLinkedQueue, TimeUnit}
-import java.{lang => jl, util => ju}
+import java.{util, lang => jl, util => ju}
 import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer
 import org.apache.rocketmq.client.consumer.store.ReadOffsetType
 import org.apache.rocketmq.common.MixAll
@@ -237,6 +237,7 @@ class MQPullInputDStream(
 
   protected def getPreferredHosts: ju.Map[TopicQueueId, String] = {
     locationStrategy match {
+      case PreferBrokers => getBrokers
       case PreferConsistent => ju.Collections.emptyMap[TopicQueueId, String]()
       case PreferFixed(hostMap) => hostMap
     }
@@ -259,6 +260,14 @@ class MQPullInputDStream(
     } else {
       None
     }
+  }
+
+  protected def getBrokers(): util.HashMap[TopicQueueId, String] = {
+    val c = consumer
+    val result = new ju.HashMap[TopicQueueId, String]()
+    val hosts = new ju.HashMap[TopicQueueId, String]()
+    c.
+    result
   }
 
   /**
